@@ -21,7 +21,7 @@ var (
 	elapsed   time.Duration
 )
 
-func hash(cost int, random bool, randomMax int, password string) (int, bool, string, error) {
+func hash(cost int, random bool, randomMax int, password string) (int, bool, string, time.Duration, error) {
 
 	if cost < bcrypt.MinCost {
 		fmt.Println("COST TOO LOW, SETTING TO MINIMUM COST: 4")
@@ -53,25 +53,29 @@ func hash(cost int, random bool, randomMax int, password string) (int, bool, str
 		fmt.Println("RANDOM COST USED:", cost)
 	}
 
+	start := time.Now()
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), cost)
 	if err != nil {
-		return 0, false, "", err
+		return 0, false, "", 0, err
 	}
+	elapsed := time.Since(start)
 
 	cost, err = bcrypt.Cost(hashedPassword)
 	if err != nil {
-		return 0, false, "", err
+		return 0, false, "", 0, err
 	}
 
-	return cost, random, string(hashedPassword), nil
+	return cost, random, string(hashedPassword), elapsed, nil
 }
 
-func compare(password string, hashedPassword string) (bool, error) {
+func compare(password string, hashedPassword string) (bool, time.Duration, error) {
+	start := time.Now()
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 	if err != nil {
-		return false, err
+		return false, 0, err
 	}
-	return true, nil
+	elapsed := time.Since(start)
+	return true, elapsed, nil
 }
 
 func main() {
@@ -89,8 +93,7 @@ func main() {
 			fmt.Println("password and hash are required")
 			os.Exit(1)
 		}
-		start = time.Now()
-		equal, err := compare(*password, *hashed)
+		equal, elapsed, err := compare(*password, *hashed)
 		if err != nil {
 			fmt.Println("error comparing password:", err)
 		}
@@ -103,12 +106,10 @@ func main() {
 			fmt.Println("password is required")
 			os.Exit(1)
 		}
-		start = time.Now()
-		c, r, hashed, err := hash(*cost, *random, *randomMax, *password)
+		c, r, hashed, elapsed, err := hash(*cost, *random, *randomMax, *password)
 		if err != nil {
 			fmt.Println("error hashing password:", err)
 		}
-		elapsed = time.Since(start)
 		fmt.Println("PASSWORD:", *password)
 		if *random {
 
