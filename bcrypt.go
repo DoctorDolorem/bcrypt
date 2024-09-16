@@ -5,17 +5,20 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 var (
-	cost      = flag.Int("c", bcrypt.DefaultCost, "cost of bcrypt")
-	random    = flag.Bool("r", false, "random cost of bcrypt")
+	cost      = flag.Int("c", bcrypt.DefaultCost, "cost used to hash password")
+	random    = flag.Bool("r", false, "random cost")
 	password  = flag.String("p", "", "password to hash")
 	match     = flag.Bool("m", false, "match password")
 	hashed    = flag.String("h", "", "hashed password to compare")
 	randomMax = flag.Int("x", 0, "maximum random cost")
+	start     time.Time
+	elapsed   time.Duration
 )
 
 func hash(cost int, random bool, randomMax int, password string) (int, bool, string, error) {
@@ -50,9 +53,12 @@ func hash(cost int, random bool, randomMax int, password string) (int, bool, str
 		fmt.Println("RANDOM COST USED:", cost)
 	}
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), cost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), cost)
+	if err != nil {
+		return 0, false, "", err
+	}
 
-	cost, err := bcrypt.Cost(hashedPassword)
+	cost, err = bcrypt.Cost(hashedPassword)
 	if err != nil {
 		return 0, false, "", err
 	}
@@ -83,21 +89,26 @@ func main() {
 			fmt.Println("password and hash are required")
 			os.Exit(1)
 		}
+		start = time.Now()
 		equal, err := compare(*password, *hashed)
 		if err != nil {
 			fmt.Println("error comparing password:", err)
 		}
+		elapsed = time.Since(start)
 		fmt.Println("PASSWORDS MATCH:", equal)
+		fmt.Println("COMPLETED IN:", elapsed)
 
 	default:
 		if *password == "" {
 			fmt.Println("password is required")
 			os.Exit(1)
 		}
+		start = time.Now()
 		c, r, hashed, err := hash(*cost, *random, *randomMax, *password)
 		if err != nil {
 			fmt.Println("error hashing password:", err)
 		}
+		elapsed = time.Since(start)
 		fmt.Println("PASSWORD:", *password)
 		if *random {
 
@@ -107,6 +118,7 @@ func main() {
 		}
 
 		fmt.Println("HASHED PASSWORD:", hashed)
+		fmt.Println("COMPLETED IN:", elapsed)
 
 	}
 }
