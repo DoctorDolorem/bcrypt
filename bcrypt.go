@@ -17,8 +17,6 @@ var (
 	match     = flag.Bool("m", false, "match password")
 	hashed    = flag.String("h", "", "hashed password to compare")
 	randomMax = flag.Int("x", 0, "maximum random cost")
-	start     time.Time
-	elapsed   time.Duration
 )
 
 func hash(cost int, random bool, randomMax int, password string) (int, bool, string, time.Duration, error) {
@@ -97,7 +95,6 @@ func main() {
 		if err != nil {
 			fmt.Println("error comparing password:", err)
 		}
-		elapsed = time.Since(start)
 		fmt.Println("PASSWORDS MATCH:", equal)
 		fmt.Println("COMPLETED IN:", elapsed)
 
