@@ -1,6 +1,6 @@
 # bcrypt
 
-GENERATE HASH:
+## GENERATE HASH:
 -c <cost>
 -r random cost (up to 31)
 -r -x <max random cost>
