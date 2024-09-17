@@ -21,3 +21,7 @@ You can combine it with PowerShell, to hash a large amount of plaintext password
 
 $content = Get-Content passwords.txt
 foreach($pw in $content){.\bcrypt.exe -p $pw}
+
+NON È
+MICA
+GIUSTO
