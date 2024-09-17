@@ -13,15 +13,15 @@
 
 ### EXAMPLE:
 
-bcrypt.exe -p Abc12345! (default cost if not specified is 10)  
+``bcrypt.exe -p Abc12345! (default cost if not specified is 10)``  
 
-bcrypt.exe -c 15 -p Abc12345!  
+``bcrypt.exe -c 15 -p Abc12345!``  
 
-bcrypt.exe -r -p Abc12345!  
+``bcrypt.exe -r -p Abc12345!``  
 
-bcrypt.exe -r -x 18 -p Abc12345!  
+``bcrypt.exe -r -x 18 -p Abc12345!``  
 
-bcrypt.exe -m -p Abc12345! -h '$2a$10$7qL9Z...'  
+``bcrypt.exe -m -p Abc12345! -h '$2a$10$7qL9Z...'``  
 
  ### Practical Usage
 You can combine it with PowerShell, to hash a large amount of plaintext password stored in a text file.  
