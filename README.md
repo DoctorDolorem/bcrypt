@@ -1,6 +1,6 @@
 ### GENERATE HASH:
 
--c `<cost>`  
+-c `<cost>`  (default cost if not specified is 10)    
 -r random cost (up to 31)  
 -r -x `<max  random  cost>`  
 -p `<password  to  hash>`  
@@ -13,7 +13,7 @@
 
 ### EXAMPLE:
 
-``bcrypt.exe -p Abc12345! (default cost if not specified is 10)``  
+``bcrypt.exe -p Abc12345!``  
 
 ``bcrypt.exe -c 15 -p Abc12345!``  
 
