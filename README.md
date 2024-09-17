@@ -1,8 +1,8 @@
 # bcrypt
 
 ### GENERATE HASH:
--c <cost> -r random cost (up to 31)
--r -x <max random cost>
+-c <cost> \-r random cost (up to 31)
+-r -x \ <max random cost>
 -p <password to hash>
 
 ### MATCH: 
