@@ -1,17 +1,15 @@
 ### GENERATE HASH:
 
-<p>
--c <cost> 
--r random cost (up to 31)
--r -x < max  random  cost>
--p < password  to  hash>
-</p>
+-c `<cost>`
+-r random cost (up to 31) 
+-r -x `<max  random  cost>`
+-p `<password  to  hash>`
 
 ### MATCH:
 
 -m match
--p < password  to  match>
--h < hash  to  match>
+-p `<password  to  match>`
+-h `<hash  to  match>`
 
 ### EXAMPLE:
 
