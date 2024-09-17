@@ -1,5 +1,3 @@
-# bcrypt
-
 ### GENERATE HASH:
 
 -c <cost> 
